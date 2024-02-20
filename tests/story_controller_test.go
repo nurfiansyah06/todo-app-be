@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -16,10 +17,21 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
 )
 
 func setupTestDB() *sql.DB {
+	var cfg app.Config
+
+	err := godotenv.Load()
+	helper.PanicIfError(err)
+
+	cfg.Host = os.Getenv("DB_HOST")
+	cfg.Port = os.Getenv("DB_PORT")
+	cfg.DbName = os.Getenv("DB_NAME")
+	cfg.UserName = os.Getenv("DB_USERNAME")
+
 	db, err := sql.Open("mysql", "root:@tcp(localhost:3306)/todo_app_test")
 	helper.PanicIfError(err)
 
