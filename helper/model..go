@@ -20,3 +20,12 @@ func ToStoryResponses(stories []domain.Story) []web.StoryResponse {
 
 	return storyResponses
 }
+
+func ToUserResponse(user domain.User) web.UserResponse {
+	return web.UserResponse{
+		Id:       user.Id,
+		Email:    user.Email,
+		FullName: user.FullName,
+		Password: user.Password,
+	}
+}

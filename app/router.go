@@ -7,8 +7,12 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func NewRouter(storyController controller.StoryController) *httprouter.Router {
+func NewRouter(storyController controller.StoryController, userController controller.UserController) *httprouter.Router {
 	router := httprouter.New()
+
+	router.POST("/api/user", userController.Create)
+	router.GET("/api/user/:userId", userController.GetById)
+	router.PUT("/api/user/:userId", userController.Update)
 
 	router.GET("/api/stories", storyController.FindAll)
 	router.GET("/api/stories/:storyId", storyController.FindById)

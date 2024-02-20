@@ -37,7 +37,11 @@ func setupRouter() http.Handler {
 	storyRepository := repository.NewStoryRepository()
 	storyService := service.NewStoryService(storyRepository, db, validate)
 	storyController := controller.NewStoryController(storyService)
-	router := app.NewRouter(storyController)
+
+	userRepository := repository.NewUserRepository()
+	userService := service.NewUserService(userRepository, db, validate)
+	userController := controller.NewUserController(userService)
+	router := app.NewRouter(storyController, userController)
 
 	return middleware.NewAuthMiddleware(router)
 }
